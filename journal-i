@@ -1,0 +1,85 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+NC='\033[0m' # No Color
+
+echo -e " ${PURPLE}   __     ______     __  __     ______     __   __     ______     __               __    ${NC}"
+echo -e " ${PURPLE}  /\ \   /\  __ \   /\ \/\ \   /\     \   /\  -.\ \   /\  __ \   /\ \             /\ \   ${NC}"
+echo -e " ${PURPLE} _\_\ \  \ \ \/\ \  \ \ \_\ \  \ \  __<   \ \ \-.  \  \ \  __ \  \ \ \____        \ \ \  ${NC}"
+echo -e " ${PURPLE}/\_____\  \ \_____\  \ \_____\  \ \_\ \_\  \ \_\\ \_\   \ \_\ \_\  \ \_____\        \ \_\ ${NC}"
+echo -e " ${PURPLE}\/_____/   \/_____/   \/_____/   \/_/ /_/   \/_/ \/_/   \/_/\/_/   \/_____/         \/_/ ${NC}"
+
+echo -e "\n${PURPLE}by inverse alien${NC}"
+
+if [ -z "$1" ]
+  then
+    echo -e "\n \nWelcome to ${PURPLE}journal-i${NC} tool for terminal. Use ${GREEN}journal-i -h${NC} for help".
+fi
+
+if [ "$1" == "-h" ] || [ "$1" == "--help"  ]
+then
+  echo -e "\n \nThis is a tool for the ones who want to send documents through ipfs. If you want to know more about this protocol please visit https://ipfs.io/ ."
+  echo -e "\n\n\t${PURPLE}journal-i -s document${NC} \n\tSending unencrypted documents to ipfs network. Instead of ${PURPLE}-s${NC} you can also use ${PURPLE}--shout${NC}"
+  echo -e "\t${PURPLE}journal-i -w document${NC} \n\tSending encrypted documents to ipfs network. Instead of ${PURPLE}-w${NC} you can use ${PURPLE}--whisper${NC}"
+  echo -e "\t${PURPLE}journal-i -l document${NC} \n\tListen to encrypted documents got from IPFS using a passphrase. Instead of ${PURPLE}-l${NC} you can use ${PURPLE}--listen${NC}"
+
+elif [ "$1" == "-s" ] || [ "$1" == "--shout"  ]
+  read -p"Enter the name of the encrypted document: " DOC
+  echo "Let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
+  read -p"Enter the number > " OPT
+
+elif [ "$1" == "-l" ] || [ "$1" == "--listen"  ]
+then
+  read -p"Enter the name of the encrypted document: " EDOC
+  echo "Enter the passphrase: "
+  read -s EPASS
+  echo -e "\n${BLUE}Great! thank you.${NC} Decrypting..."
+  gpg --output decrypted_doc --passphrase $EPASS --batch --no-tty --decrypt $EDOC
+  echo -e "${PURPLE}Done. Showing it:${NC}\n"
+  cat decrypted_doc
+
+
+elif [ "$1" == "-w" ] || [ "$1" == "--whisper"  ]
+then
+  read -p"Enter the name of the document: " DOC
+  read -p"Enter the name of the output document: " ODOC
+  echo "Enter the passphrase: "
+  read -s PASS
+  echo -e "\n${BLUE}Great! thank you.${NC} Encrypting..."
+  gpg --output $ODOC --passphrase $PASS --batch --no-tty --symmetric $DOC
+  echo -e "\nDone! Now let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
+  read -p"Enter the number > " OPT
+
+  if [ "$OPT" == "1" ]
+  then
+    echo "You chose: simple gateway \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+    read -p"Write 'Yes I am aware' if agree: " SURE
+
+    if [ "$SURE" == "Yes I am aware" ]
+    then
+      echo "You agreed. Uploading, please wait..."
+      echo "Done."
+    else
+      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
+    fi
+
+  elif [ "$OPT" == "2" ]
+  then
+    echo -e "You chose: Infura \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+    read -p"Write 'Yes I am aware' if agree: " SURE
+
+    if [ "$SURE" == "Yes I am aware" ]
+    then
+      echo "You agreed. Uploading, please wait..."
+      echo "Done."
+    else
+      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
+    fi
+
+  fi
+
+
+fi
