@@ -30,3 +30,6 @@ $ journal-i -l hash
 ![](https://github.com/AlienBradbury/secipfs/blob/master/journali/images/three.png)
 
 This will get the content of the hash and ask for the password, in order to read or open it.
+
+
+_Note: The script isn't finished yet._
