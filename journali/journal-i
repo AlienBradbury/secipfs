@@ -22,17 +22,18 @@ fi
 if [ "$1" == "-h" ] || [ "$1" == "--help"  ]
 then
   echo -e "\n \nThis is a tool for the ones who want to send documents through ipfs. If you want to know more about this protocol please visit https://ipfs.io/ ."
-  echo -e "\n\n\t${PURPLE}journal-i -s document${NC} \n\tSending unencrypted documents to ipfs network. Instead of ${PURPLE}-s${NC} you can also use ${PURPLE}--shout${NC}"
-  echo -e "\t${PURPLE}journal-i -w document${NC} \n\tSending encrypted documents to ipfs network. Instead of ${PURPLE}-w${NC} you can use ${PURPLE}--whisper${NC}"
+  echo -e "\n\n\t${PURPLE}journal-i -s document${NC} \n\tSending unencrypted documents to IPFS network. Instead of ${PURPLE}-s${NC} you can also use ${PURPLE}--shout${NC}"
+  echo -e "\t${PURPLE}journal-i -w document${NC} \n\tSending encrypted documents to IPFS network. Instead of ${PURPLE}-w${NC} you can use ${PURPLE}--whisper${NC}"
   echo -e "\t${PURPLE}journal-i -l document${NC} \n\tListen to encrypted documents got from IPFS using a passphrase. Instead of ${PURPLE}-l${NC} you can use ${PURPLE}--listen${NC}"
 
 elif [ "$1" == "-s" ] || [ "$1" == "--shout"  ]
+  then
   read -p"Enter the name of the encrypted document: " DOC
   echo "Let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
   read -p"Enter the number > " OPT
 
-elif [ "$1" == "-l" ] || [ "$1" == "--listen"  ]
-then
+elif [ "$1" == "-l" ] || [ "$1" == "--listen" ]
+  then
   read -p"Enter the name of the encrypted document: " EDOC
   echo "Enter the passphrase: "
   read -s EPASS
@@ -81,5 +82,7 @@ then
 
   fi
 
-
+else
+  echo -e "\n${BLUE}No valid option.${NC}"
 fi
+
