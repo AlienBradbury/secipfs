@@ -28,9 +28,35 @@ then
 
 elif [ "$1" == "-s" ] || [ "$1" == "--shout"  ]
   then
-  read -p"Enter the name of the encrypted document: " DOC
-  echo "Let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
+  read -p"Enter the name of the document: " DOC
+  echo -e "Let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
   read -p"Enter the number > " OPT
+  if [ "$OPT" == "1" ]
+  then
+    echo "You chose: simple gateway \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+    read -p"Write 'Yes I am aware' if agree: " SURE
+
+    if [ "$SURE" == "Yes I am aware" ]
+    then
+      echo "You agreed. Uploading, please wait..."
+      echo "Done."
+    else
+      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
+    fi
+
+  elif [ "$OPT" == "2" ]
+  then
+    echo -e "You chose: Infura \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+    read -p"Write 'Yes I am aware' if agree: " SURE
+
+    if [ "$SURE" == "Yes I am aware" ]
+    then
+      echo "You agreed. Uploading, please wait..."
+      echo "Done."
+    else
+      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
+    fi
+  fi
 
 elif [ "$1" == "-l" ] || [ "$1" == "--listen" ]
   then
@@ -85,4 +111,3 @@ then
 else
   echo -e "\n${BLUE}No valid option.${NC}"
 fi
-
