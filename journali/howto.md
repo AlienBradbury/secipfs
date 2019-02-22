@@ -3,13 +3,14 @@
 ## Send your passphrase-encrypted files to ipfs or shout your message public
 
 This is a linux terminal script made for launching files to ipfs, either encrypted (_whisper_) or public (_shout_) and listen to ipfs documents already encrypted (_listen_). This a basic guide for installing, setup and use. You can use `journal-i --help` or `journal-i -h` for more help.
+![](https://github.com/AlienBradbury/secipfs/blob/master/journali/images/one.png)
 
 ## Sendind simple documents to the network (shout)
 
 ```
 $ journal-i -s mydocument.doc
 ```
-![](https://github.com/AlienBradbury/secipfs/blob/master/journali/images/one.png)
+![](https://github.com/AlienBradbury/secipfs/blob/master/journali/images/four.png)
 
 This will launch a normal document to the network, the only thing anyone needs to read it is the _ipfs hash_ but it doesn't have a password. The file will divide into _ipfs blocks_ and sitribute into the chosen network (normal gateway or infura).
 
