@@ -11,7 +11,7 @@ This is a linux terminal script made for launching files to ipfs, either encrypt
 ```
 $ journal-i -s mydocument.doc
 ```
-![](https://github.com/AlienBradbury/secipfs/blob/master/journali/images/four.png)
+
 
 This will launch a normal document to the network, the only thing anyone needs to read it is the _ipfs hash_ but it doesn't have a password. The file will divide into _ipfs blocks_ and sitribute into the chosen network (normal gateway or infura).
 
