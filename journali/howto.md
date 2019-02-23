@@ -2,7 +2,7 @@
 
 ## Send your passphrase-encrypted files to ipfs or shout your message public
 
-This is a linux terminal script made for launching files to ipfs, either encrypted (_whisper_) or public (_shout_) and listen to ipfs documents already encrypted (_listen_). This a basic guide for installing, setup and use. You can use `journal-i --help` or `journal-i -h` for more help.
+This is a linux terminal script made for launching files to ipfs, either encrypted (_whisper_) or public (_shout_) and listen to ipfs documents already encrypted (_listen_). This a basic guide for installing, setup and use. You can use `journal-i --help` or `journal-i -h` for more help. Please, before using this tool, open a secondary terminal and write `ipfs daemon` in case you already have it installed.
 
 
 ## Sendind simple documents to the network (shout)
