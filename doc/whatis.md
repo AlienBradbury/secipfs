@@ -2,4 +2,12 @@ IPFS (Interplanetary File System) is an hypermedia peer-to-peer protocol, for cr
 
 Here's the [official website](https://ipfs.io/) and [introduction](https://docs.ipfs.io/introduction/overview/).
 
-Installing it is quite easy.
+Installing it is quite easy, as explained in the official website.
+
+```
+$ tar xvfz go-ipfs.tar.gz
+$ cd go-ipfs
+$ ./install.sh
+```
+
+Enjoy!
