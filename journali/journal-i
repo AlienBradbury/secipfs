@@ -19,95 +19,92 @@ if [ -z "$1" ]
     echo -e "\n \nWelcome to ${PURPLE}journal-i${NC} tool for terminal. Use ${GREEN}journal-i -h${NC} for help".
 fi
 
+if [ -z "$2" ]
+  then
+    echo -e "\n \nApparently you forgot to specify the document! Oops"
+fi
+
+#help
 if [ "$1" == "-h" ] || [ "$1" == "--help"  ]
 then
   echo -e "\n \nThis is a tool for the ones who want to send documents through ipfs. If you want to know more about this protocol please visit https://ipfs.io/ ."
   echo -e "\n\n\t${PURPLE}journal-i -s document${NC} \n\tSending unencrypted documents to IPFS network. Instead of ${PURPLE}-s${NC} you can also use ${PURPLE}--shout${NC}"
-  echo -e "\t${PURPLE}journal-i -w document${NC} \n\tSending encrypted documents to IPFS network. Instead of ${PURPLE}-w${NC} you can use ${PURPLE}--whisper${NC}"
-  echo -e "\t${PURPLE}journal-i -l document${NC} \n\tListen to encrypted documents got from IPFS using a passphrase. Instead of ${PURPLE}-l${NC} you can use ${PURPLE}--listen${NC}"
+  echo -e "\t${PURPLE}journal-i -w document -p password ${NC} \n\tSending encrypted documents to IPFS network. Instead of ${PURPLE}-w${NC} you can use ${PURPLE}--whisper${NC}"
+  echo -e "\t${PURPLE}journal-i -l hash -p password -o output_file${NC} \n\tListen to encrypted documents got from IPFS using a passphrase. Instead of ${PURPLE}-l${NC} you can use ${PURPLE}--listen${NC}"
 
-elif [ "$1" == "-s" ] || [ "$1" == "--shout"  ]
-  then
-  read -p"Enter the name of the document: " DOC
-  echo -e "Let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
-  read -p"Enter the number > " OPT
-  if [ "$OPT" == "1" ]
-  then
-    echo "You chose: simple gateway \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
-    read -p"Write 'Yes I am aware' if agree: " SURE
-
-    if [ "$SURE" == "Yes I am aware" ]
-    then
-      echo "You agreed. Uploading, please wait..."
-      echo "Done."
-    else
-      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
-    fi
-
-  elif [ "$OPT" == "2" ]
-  then
-    echo -e "You chose: Infura \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
-    read -p"Write 'Yes I am aware' if agree: " SURE
-
-    if [ "$SURE" == "Yes I am aware" ]
-    then
-      echo "You agreed. Uploading, please wait..."
-      echo "Done."
-    else
-      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
-    fi
-  fi
-
-elif [ "$1" == "-l" ] || [ "$1" == "--listen" ]
-  then
-  read -p"Enter the name of the encrypted document: " EDOC
-  echo "Enter the passphrase: "
-  read -s EPASS
-  echo -e "\n${BLUE}Great! thank you.${NC} Decrypting..."
-  gpg --output decrypted_doc --passphrase $EPASS --batch --no-tty --decrypt $EDOC
-  echo -e "${PURPLE}Done. Showing it:${NC}\n"
-  cat decrypted_doc
-
-
+#whisper
 elif [ "$1" == "-w" ] || [ "$1" == "--whisper"  ]
 then
-  read -p"Enter the name of the document: " DOC
-  read -p"Enter the name of the output document: " ODOC
-  echo "Enter the passphrase: "
-  read -s PASS
-  echo -e "\n${BLUE}Great! thank you.${NC} Encrypting..."
-  gpg --output $ODOC --passphrase $PASS --batch --no-tty --symmetric $DOC
-  echo -e "\nDone! Now let's send it to ${PURPLE}ipfs${NC}. Would you like to use...\n\t${PURPLE}1)Simple gateway (official, slower)${NC}\n\t${BLUE}2)Infura gateway${NC}"
-  read -p"Enter the number > " OPT
 
-  if [ "$OPT" == "1" ]
+  #check if password was selected
+  if [ -z "$3" ] || [ -z "$4" ]
+    then
+      echo -e "\n \nApparently you forgot to specify the password! Oops"
+  fi
+  if [ "$3" == "-p" ]
   then
-    echo "You chose: simple gateway \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+
+    #advisory
+    echo -e "\nAre you sure that you want to send it? remember, you wont be able to delete it later. "
     read -p"Write 'Yes I am aware' if agree: " SURE
 
     if [ "$SURE" == "Yes I am aware" ]
     then
+      #aes encrypt woth password
       echo "You agreed. Uploading, please wait..."
+      gpg --output remove --passphrase $4 --batch --no-tty --symmetric $2
+      #ipfs add remove
+      echo -e "${BLUE}Uploaded to ipfs${NC}"
+      #rm remove
       echo "Done."
     else
       echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
     fi
-
-  elif [ "$OPT" == "2" ]
-  then
-    echo -e "You chose: Infura \nAre you sure that you want to send it? remember, you wont be able to delete it later. "
-    read -p"Write 'Yes I am aware' if agree: " SURE
-
-    if [ "$SURE" == "Yes I am aware" ]
-    then
-      echo "You agreed. Uploading, please wait..."
-      echo "Done."
-    else
-      echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
-    fi
-
+  else
+    echo "Password command invalid"
   fi
 
-else
-  echo -e "\n${BLUE}No valid option.${NC}"
+#shout
+elif [ "$1" == "-s" ] || [ "$1" == "--shout" ]
+then
+  #advisory
+  echo -e "\nAre you sure that you want to send it? remember, you wont be able to delete it later. "
+  read -p"Write 'Yes I am aware' if agree: " SURE
+
+  if [ "$SURE" == "Yes I am aware" ]
+  then
+    #aes encrypt woth password
+    echo "You agreed. Uploading, please wait..."
+    #ipfs add $2
+    echo -e "${BLUE}Uploaded to ipfs${NC}"
+    echo "Done."
+  else
+    echo "You didn't write the correct agreeing phrase (or didn't agreed!). Try again."
+  fi
+
+#listen with password
+elif [ "$1" == "-l" ] || [ "$1" == "--listen"  ]
+then
+  if [ -z "$3" ] || [ -z "$4" ]
+    then
+      echo -e "\n \nApparently you forgot to specify the password! Oops"
+  fi
+
+  #check if password command is valid
+  if [ "$3" == "-p" ]
+  then
+    #if output not defined
+    if [ -z "$6" ] || [ -z "$5" ]
+    then
+      echo -e "\nOutput not defined"
+    else
+      #gpg decrypt aes
+      gpg --output $6 --passphrase $4 --batch --no-tty --decrypt $2
+      echo -e "${PURPLE}Done. Showing it:${NC}\n"
+      cat $6
+    fi
+  else
+    echo "Password command invalid"
+  fi
+
 fi
