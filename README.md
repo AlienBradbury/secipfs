@@ -1,6 +1,6 @@
 # Security with ipfs
 
-This repository is aimed to be a box full of security related scripts related to IPFS protocol and distributed ledger.
+This repository is aimed to be a box full of security scripts related to IPFS protocol and distributed ledger.
 
 FAQ:
 
