@@ -1,3 +1,3 @@
-#TODO
+# Who am I?
 
-Write who am I. Or not.
+Cybersecurity analyst based in Spain. I like GNU Linux and distributed ledger.
